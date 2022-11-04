@@ -98,6 +98,18 @@ public class Main {
                     break;
                 case 4:
                     System.out.println("delete student selected");
+                    System.out.println("enter addmission number:");
+                    String adm=scanner.next();
+                    try{
+                        Connection con= DriverManager.getConnection("jdbc:mysql://localhost:3306/studentdb","root","");
+                        String sql="DELETE FROM `students` WHERE `adminNo`="+adm;
+                        Statement stmt=con.createStatement();
+                        stmt.executeUpdate(sql);
+                        System.out.println("data deleted sucessfully");
+                    }
+                    catch (Exception e) {
+                        System.out.println(e);
+                    }
                     break;
                 case 5:
                     System.out.println("update student selected");
