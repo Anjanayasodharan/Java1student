@@ -27,20 +27,20 @@ public class Main {
                     System.out.println("enter the name:");
                     String name = scanner.next();
                     System.out.println("enter the rollno:");
-                    int rollNumber = scanner.nextInt();
+                    int rollno = scanner.nextInt();
                     System.out.println("enter the admno:");
-                    int adminNo = scanner.nextInt();
+                    int admno = scanner.nextInt();
                     System.out.println("enter the college name:");
-                    String college = scanner.next();
+                    String collegename = scanner.next();
                     try {
                         Class.forName("com.mysql.jdbc.Driver");
                         Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/studentdb", "root", "");
                         String sql = "INSERT INTO `students`(`name`, `rollNumber`, `adminNo`, `college`) VALUES (?,?,?,?)";
                         PreparedStatement stmt = con.prepareStatement(sql);
                         stmt.setString(1, name);
-                        stmt.setInt(2, rollNumber);
-                        stmt.setInt(3, adminNo);
-                        stmt.setString(4, college);
+                        stmt.setInt(2, rollno);
+                        stmt.setInt(3, admno);
+                        stmt.setString(4, collegename);
                         stmt.executeUpdate();
                     }
                     catch (Exception e){
