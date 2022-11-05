@@ -112,7 +112,7 @@ public class Main {
                     }
                     break;
                 case 5:
-                    System.out.println("update student selected");
+
                     break;
                 case 6:
                     System.exit(0);
