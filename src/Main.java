@@ -1,6 +1,4 @@
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
+import java.sql.*;
 import java.util.Scanner;
 
 public class Main {
@@ -27,20 +25,20 @@ public class Main {
                     System.out.println("enter the name:");
                     String name = scanner.next();
                     System.out.println("enter the rollno:");
-                    int rollNumber = scanner.nextInt();
+                    int rollno = scanner.nextInt();
                     System.out.println("enter the admno:");
-                    int adminNo = scanner.nextInt();
+                    int admno = scanner.nextInt();
                     System.out.println("enter the college name:");
-                    String college = scanner.next();
+                    String collegename = scanner.next();
                     try {
                         Class.forName("com.mysql.jdbc.Driver");
                         Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/studentdb", "root", "");
                         String sql = "INSERT INTO `students`(`name`, `rollNumber`, `adminNo`, `college`) VALUES (?,?,?,?)";
                         PreparedStatement stmt = con.prepareStatement(sql);
                         stmt.setString(1, name);
-                        stmt.setInt(2, rollNumber);
-                        stmt.setInt(3, adminNo);
-                        stmt.setString(4, college);
+                        stmt.setInt(2, rollno);
+                        stmt.setInt(3, admno);
+                        stmt.setString(4, collegename);
                         stmt.executeUpdate();
                     }
                     catch (Exception e){
@@ -48,17 +46,96 @@ public class Main {
                     }
                     break;
                 case 2:
-                    System.out.println("select student selected");
+                    System.out.println("view student selected");
+                    try {
+                        Class.forName("com.mysql.jdbc.Driver");
+                        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/studentdb", "root", "");
+                        String sql = "SELECT `name`, `rollNumber`, `adminNo`, `college` FROM `students`";
+                        Statement stmt = con.createStatement();
+                        ResultSet rs = stmt.executeQuery(sql);
+                        while (rs.next()) {
+                            String getName = rs.getString("name");
+                            String getRoll = rs.getString("rollNumber");
+                            String getAdm = rs.getString("adminNo");
+                            String getCollege = rs.getString("college");
+                            System.out.println("name="+getName);
+                            System.out.println("rollno="+getRoll);
+                            System.out.println("admno="+getAdm);
+                            System.out.println("college="+getCollege+"\n");
+                        }
+
+                    }
+
+                    catch (Exception e) {
+                        System.out.println(e);
+                    }
                     break;
                 case 3:
-                    System.out.println("search student selected");
+                    System.out.println("Search student");
+                    System.out.println("Enter the admission number : ");
+                    admno=scanner.nextInt();
+                    try {
+                        Class.forName("com.mysql.jdbc.Driver");
+                        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/studentdb","root","");
+                        String sql = "SELECT `name`, `rollNumber`, `adminNo`, `college` FROM `students` WHERE `adminNo`="+String.valueOf(admno);
+                        Statement stmt = con.createStatement();
+                        ResultSet rs = stmt.executeQuery(sql);
+                        while (rs.next()){
+
+                            String getName = rs.getString("name");
+                            String getRollno = rs.getString("rollNumber");
+                            String getAdmno = rs.getString("adminNo");
+                            String getCollege = rs.getString("college");
+                            System.out.println("Name="+getName);
+                            System.out.println("Rollno="+getRollno);
+                            System.out.println("Admno="+getAdmno);
+                            System.out.println("college="+getCollege+"\n");
+                        }
+                    }
+                    catch (Exception e ){
+                        System.out.println(e);
+                    }
                     break;
                 case 4:
                     System.out.println("delete student selected");
+                    System.out.println("enter addmission number:");
+                    String adm=scanner.next();
+                    try{
+                        Connection con= DriverManager.getConnection("jdbc:mysql://localhost:3306/studentdb","root","");
+                        String sql="DELETE FROM `students` WHERE `adminNo`="+adm;
+                        Statement stmt=con.createStatement();
+                        stmt.executeUpdate(sql);
+                        System.out.println("data deleted sucessfully");
+                    }
+                    catch (Exception e) {
+                        System.out.println(e);
+                    }
                     break;
                 case 5:
-                    System.out.println("update student selected");
+                    System.out.println("Enter the admno to be updating");
+                    admno = scanner.nextInt();
+                    System.out.println("Enter the name to be updated");
+                    name = scanner.next();
+                    System.out.println("Enter the roll number");
+                    int rollNumber = scanner.nextInt();
+                    System.out.println("Enter the admno");
+                    int adminNo = scanner.nextInt();
+                    System.out.println("Enter the college name");
+                    String college = scanner.next();
+                    try{
+                        Class.forName("com.mysql.jdbc.Driver");
+                        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/studentdb", "root", "");
+                        String sql = "UPDATE `students` SET `name`='"+name+"',`rollnumber`='"+String.valueOf(rollNumber)+"',`adminNo`='"+String.valueOf(adminNo)+"',`college`='"+college+"' WHERE `adminNo`="+String.valueOf(admno);
+                        Statement stmt = con.createStatement();
+                        stmt.executeUpdate(sql);
+                        System.out.println("Updated successfully");
+                    }
+                    catch (Exception e){
+                        System.out.println(e);
+                    }
                     break;
+
+
                 case 6:
                     System.exit(0);
                     break;
